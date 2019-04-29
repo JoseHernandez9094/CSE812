@@ -1,0 +1,33 @@
+
+```{r}
+
+library(readr)
+library(tidyr)
+library(ggplot2)
+library(plyr)
+library(reshape2)
+library(cowplot)
+library(tidyverse)
+library(dplyr)
+
+
+source("https://gist.githubusercontent.com/benmarwick/2a1bb0133ff568cbe28d/raw/fb53bd97121f7f9ce947837ef1a4c65a73bffb3f/geom_flat_violin.R")
+
+
+```
+
+### Load Data
+
+```{r}
+sol_100 <- read.csv("fast.csv", na.strings = "NONE")
+
+ggplot(sol_100, mapping=aes(x="3x3 Grid", y=i, fill=Instruction, colour=Instruction)) +
+        geom_flat_violin(position=position_nudge(x=.2), adjust=1) +
+        geom_point(position = position_jitter(width = .15), size = 2.80) +
+        geom_boxplot(aes(x = Instruction, y = i),outlier.shape = NA, alpha = 0.3, width = .1, colour = "BLACK") +
+        ylab("Instruction Found") + ylim(0, 200) + xlab("") + coord_flip() + guides(fill=FALSE, colour=FALSE) +
+        ggtitle("Instruction count where leader was elected") +
+        ggsave("./violin.png", height=8, width=17)
+
+
+```
